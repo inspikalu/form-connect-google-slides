@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>Church Community Form</title>
+  </head>
+  <body class="bg-gray-100 p-10">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-6">Church Community Participation</h2>
+      <form id="community-form" class="grid grid-cols-2 gap-2">
+        <div class="mb-4">
+          <label for="first-name" class="block text-gray-700">First Name</label>
+          <input
+            type="text"
+            id="first-name"
+            name="first-name"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="last-name" class="block text-gray-700">Last Name</label>
+          <input
+            type="text"
+            id="last-name"
+            name="last-name"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="phone" class="block text-gray-700">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="service-type" class="block text-gray-700"
+            >Type of Service</label
+          >
+          <select
+            id="service-type"
+            name="service-type"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          >
+            <option value="community-service">Community Service</option>
+            <option value="worship-service">Worship Service</option>
+            <option value="bible-study">Bible Study</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="event-name" class="block text-gray-700">Event Name</label>
+          <input
+            type="text"
+            id="event-name"
+            name="event-name"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="prayer-request" class="block text-gray-700"
+            >Prayer Request</label
+          >
+          <textarea
+            id="prayer-request"
+            name="prayer-request"
+            rows="3"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          ></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="volunteer-interests" class="block text-gray-700"
+            >Volunteer Interests</label
+          >
+          <textarea
+            id="volunteer-interests"
+            name="volunteer-interests"
+            rows="3"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          ></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="contact-method" class="block text-gray-700"
+            >Preferred Contact Method</label
+          >
+          <select
+            id="contact-method"
+            name="contact-method"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            required
+          >
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="comments" class="block text-gray-700"
+            >Additional Comments</label
+          >
+          <textarea
+            id="comments"
+            name="comments"
+            rows="3"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 col-span-full"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+
+    <script>
+      const scriptUrl =
+        "https://script.google.com/macros/s/AKfycby5Dwq8FmkzoZBjBJ_N9ohy8_KkYFa2fmiB8sc_Ec_POtM9HtB7ukPIAmtXDCqrgsPS/exec";
+      document
+        .getElementById("community-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent the default form submission
+
+          const formData = {
+            firstName: document.getElementById("first-name").value,
+            lastName: document.getElementById("last-name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            serviceType: document.getElementById("service-type").value,
+            eventName: document.getElementById("event-name").value,
+            prayerRequest: document.getElementById("prayer-request").value,
+            volunteerInterests: document.getElementById("volunteer-interests")
+              .value,
+            contactMethod: document.getElementById("contact-method").value,
+            comments: document.getElementById("comments").value,
+          };
+
+          fetch(scriptUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  "Network response was not ok " + response.statusText
+                );
+              }
+              return response.json(); // Assuming your server responds with JSON
+            })
+            .then((data) => {
+              alert("Form submitted successfully!");
+              document.getElementById("community-form").reset();
+            })
+            .catch((error) => {
+              alert("Error submitting the form: " + error.message);
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
